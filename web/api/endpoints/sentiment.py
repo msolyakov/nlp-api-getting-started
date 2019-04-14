@@ -1,7 +1,5 @@
 from __future__ import absolute_import
 
-import logging
-
 from flask import request
 from flask_restplus import Resource
 from web.api.restplus import api
@@ -10,10 +8,10 @@ from web.bll.core import do_sentiment
 from web.api.models.common import text_argument
 from web.api.models.sentiment import sentiment_result
 
-log = logging.getLogger(__name__)
+# import logging
+# log = logging.getLogger()
 
-ns = api.namespace('api/sentiment', description='Sentiment analysis API operations')
-
+ns = api.namespace('nlp/sentiment', description='Sentiment analysis API operations')
 
 @ns.route('/')
 class PostsCollection(Resource):

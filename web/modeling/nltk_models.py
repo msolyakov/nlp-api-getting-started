@@ -3,17 +3,18 @@ from __future__ import absolute_import
 
 import logging
 
-log = logging.getLogger(__name__)
+log = logging.getLogger()
 
 class NltkWrapper():
 
     is_model_learned = False
-
+    
     def init_app(self, flask_app):
         log.info('>>>>> NLTK initialization started')
         # TODO
         self.ensure_model_is_learned()
         log.info('>>>>> NLTK initialization completed')
+        print('>>>>> NLTK initialization completed')
 
     def ensure_model_is_learned(self):
         if not self.is_model_learned:

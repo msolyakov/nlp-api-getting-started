@@ -2,13 +2,12 @@ from __future__ import absolute_import
 # API bootstrap file
 
 import logging
-import traceback
-import settings
-
+from web.api import settings
 from flask_restplus import Api
+# import traceback
 # from sqlalchemy.orm.exc import NoResultFound
 
-log = logging.getLogger(__name__)
+log = logging.getLogger()
 
 api = Api(version='1.0', title='NLP API - Getting Started',
           description='A simple NLP API demonstration')
@@ -20,11 +19,6 @@ def default_error_handler(e):
 
     if not settings.FLASK_DEBUG:
         return {'message': message}, 500
-
-@api.errorhandler(404)
-def not_found(e):
-    log.warning(traceback.format_exc())
-    return {'error': 'Not found', 'exception': e}, 404
 
 # @api.errorhandler(NoResultFound)
 # def database_not_found_error_handler(e):

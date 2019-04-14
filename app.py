@@ -3,19 +3,18 @@ from __future__ import absolute_import
 
 import logging.config
 
-import os
 from flask import Flask, Blueprint
 from web.api import settings
-from web.api.endpoints.nlp import ns as nlp_api_namespace
+from web.api.endpoints.sentiment import ns as sentiment_api_namespace
 from web.api.restplus import api
 from web.modeling.nltk_models import nltk
 # from rest_api_demo.api.nlp import ns as blog_categories_namespace
 # from rest_api_demo.database import db
 
 app = Flask(__name__)
-logging_conf_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '../logging.conf'))
-logging.config.fileConfig(logging_conf_path)
-log = logging.getLogger(__name__)
+
+logging.config.fileConfig('logging.conf')
+log = logging.getLogger()
 
 
 def configure_app(flask_app):
@@ -33,10 +32,10 @@ def initialize_app(flask_app):
 
     blueprint = Blueprint('api', __name__, url_prefix='/api')
     api.init_app(blueprint)
-    api.add_namespace(nlp_api_namespace)
+    api.add_namespace(sentiment_api_namespace)
     flask_app.register_blueprint(blueprint)
 
-    nltk.init_app(flask_app)
+    nltk.init_app(flask_app) # Train model before start
     #db.init_app(flask_app)
 
 
