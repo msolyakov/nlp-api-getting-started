@@ -1,4 +1,4 @@
 class SentimentResult(object):
-    def __init__(self, text, score):
+    def __init__(self, text, rate):
         self.text = text
-        self.score = score
+        self.rate = rate

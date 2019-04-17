@@ -7,7 +7,7 @@ from web.api.models.common import pagination
 
 sentiment_result = api.model('Sentiment analysis result', {
     'text': fields.String(description='Text to analyse'),
-    'score': fields.Integer(required=True, description='Score result'),
+    'rate': fields.String(description='Sentiment rate for specified text'),
 })
 
 sentiment_result_page = api.inherit('Page of sentiment analysis results', pagination, {

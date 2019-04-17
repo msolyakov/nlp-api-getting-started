@@ -5,9 +5,10 @@ import logging.config
 
 from flask import Flask, Blueprint
 from web.api import settings
-from web.api.endpoints.sentiment import ns as sentiment_api_namespace
+from web.api.endpoints.v1 import ns as v1_api_namespace
 from web.api.restplus import api
 from web.modeling.nltk_models import nltk
+from web.modeling.textblob_models import tb
 # from rest_api_demo.api.nlp import ns as blog_categories_namespace
 # from rest_api_demo.database import db
 
@@ -32,16 +33,18 @@ def initialize_app(flask_app):
 
     blueprint = Blueprint('api', __name__, url_prefix='/api')
     api.init_app(blueprint)
-    api.add_namespace(sentiment_api_namespace)
+    api.add_namespace(v1_api_namespace)
     flask_app.register_blueprint(blueprint)
 
-    nltk.init_app(flask_app) # Train model before start
-    #db.init_app(flask_app)
+    # Train model before start
+    tb.init_app()
+    # nltk.init_app()
+    # db.init_app(flask_app)
 
 
 def main():
     initialize_app(app)
-    log.info('>>>>> Starting development server at http://{}/api/ <<<<<'.format(app.config['SERVER_NAME']))
+    log.info(str.format('>>>>> Starting development server at http://{}/api/ <<<<<', app.config['SERVER_NAME']))
     app.run(debug=settings.FLASK_DEBUG)
 
 

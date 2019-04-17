@@ -1,11 +1,9 @@
-spam_amount = 0
-print(spam_amount)
+from web.data.en.datasets import SentimentLabelledDataset, AmazonAlexaDataset
+import logging
+import logging.config
 
-# Ordering Spam, egg, Spam, Spam, bacon and Spam (4 more servings of Spam)
-spam_amount = spam_amount + 4
+logging.config.fileConfig('logging.conf')
+log = logging.getLogger()
 
-if spam_amount > 0:
-    print("But I don't want ANY spam!")
-
-viking_song = "Spam " * spam_amount
-print(viking_song)
+SentimentLabelledDataset().load_data()
+AmazonAlexaDataset().load_data()

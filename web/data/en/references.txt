@@ -1,0 +1,3 @@
+amazon_alexa.tsv - https://www.kaggle.com/rmishra258/sentiment-analysis-with-textblob/data
+twitter_1n6M.csv - https://www.kaggle.com/kazanova/sentiment140
+twitter_100k - https://www.kaggle.com/youben/tweets-sentiment-analysis
