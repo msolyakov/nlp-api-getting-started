@@ -1,9 +1,8 @@
 from __future__ import absolute_import
-# Data Loaders
+# Common Data Loaders
 
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
-from sklearn.model_selection import train_test_split # to split the training and testing data
 
 import logging
 
@@ -19,8 +18,7 @@ class CsvSentimentDataLoader():
         self.pos_rates = pos_rates
 
 
-    def load_train_test(self, test_part_size=.3):
-    
+    def load_data(self):
         # load the dataset
         log.info(str.format('>>>>> Loading CSV/TSV data from {}', self.data_path))
 
@@ -35,14 +33,4 @@ class CsvSentimentDataLoader():
 
         log.info(str.format('>>>>> First five rows: \n{}', data[:5]))
 
-        # create x and y and split them to validate the model
-        x = data[self.text_attr]
-        y = data[self.rate_attr]
-
-        log.info('>>>>> Spliting data to train and test sets.')
-        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=test_part_size)
-
-        train = [x for x in zip(x_train, y_train)]
-        test = [x for x in zip(x_test, y_test)]
-
-        return train, test
+        return data

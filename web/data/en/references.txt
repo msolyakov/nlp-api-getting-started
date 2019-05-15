@@ -1,3 +1,4 @@
-amazon_alexa.tsv - https://www.kaggle.com/rmishra258/sentiment-analysis-with-textblob/data
+amazon_alexa.tsv - https://www.kaggle.com/sid321axn/amazon-alexa-reviews
 twitter_1n6M.csv - https://www.kaggle.com/kazanova/sentiment140
 twitter_100k - https://www.kaggle.com/youben/tweets-sentiment-analysis
+sentiment_labelled - https://www.kaggle.com/rahulin05/sentiment-labelled-sentences-data-set, https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences#
