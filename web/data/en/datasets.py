@@ -9,52 +9,66 @@ from web.data.splitters import SimpleDataSplitter
 log = logging.getLogger()
 
 class AmazonAlexaDataset():
-    train = None
-    test = None
+
+    def __init__(self):
+        self.file_path = os.path.normpath(os.path.join(os.path.dirname(__file__), 'amazon_alexa/train.tsv'))
+        self.delim = '\t'
+        self.text_attr = 'verified_reviews'
+        self.rate_attr = 'feedback'
+        self.pos_rates = [1]
+
+        self.data = None
+        self.train = None
+        self.test = None
 
     def load_data(self):
         # load the dataset
-        file_path = os.path.normpath(os.path.join(os.path.dirname(__file__), 'amazon_alexa/train.tsv'))
-        delim = '\t'
-        text_attr = 'verified_reviews'
-        rate_attr = 'feedback'
- 
-        loader = CsvSentimentDataLoader(file_path, delim, text_attr, rate_attr, [1])
-        splitter = SimpleDataSplitter(text_attr, rate_attr, test_part_size=.3)
+        loader = CsvSentimentDataLoader(self.file_path, self.delim, self.text_attr, self.rate_attr, self.pos_rates)
+        splitter = SimpleDataSplitter(self.text_attr, self.rate_attr, test_part_size=.3)
 
-        self.train, self.test = splitter.split_data(loader.load_data())
+        self.data = loader.load_data()
+        self.train, self.test = splitter.split_data(self.data)
 
 
 class SentimentLabelledDataset():
-    train = None
-    test = None
+
+    def __init__(self):
+        self.file_path = os.path.normpath(os.path.join(os.path.dirname(__file__), 'sentiment_labelled/train.tsv'))
+        self.delim = '\t'
+        self.text_attr = 'review'
+        self.rate_attr = 'feedback'
+        self.pos_rates = ['1']
+
+        self.data = None
+        self.train = None
+        self.test = None    
 
     def load_data(self):
         # load the dataset
-        file_path = os.path.normpath(os.path.join(os.path.dirname(__file__), 'sentiment_labelled/train.tsv'))
-        delim = '\t'
-        text_attr = 'review'
-        rate_attr = 'feedback'
+        loader = CsvSentimentDataLoader(self.file_path, self.delim, self.text_attr, self.rate_attr, self.pos_rates)
+        splitter = SimpleDataSplitter(self.text_attr, self.rate_attr, test_part_size=.3)
 
-        loader = CsvSentimentDataLoader(file_path, delim, text_attr, rate_attr, ['1'])
-        splitter = SimpleDataSplitter(text_attr, rate_attr, test_part_size=.3)
-
-        self.train, self.test = splitter.split_data(loader.load_data())
+        self.data = loader.load_data()
+        self.train, self.test = splitter.split_data(self.data)
 
 
 class Twitter100kDataset():
+    
+    def __init__(self):
+        self.file_path = os.path.normpath(os.path.join(os.path.dirname(__file__), 'twitter_100k/train.csv'))
+        self.delim = ','
+        self.text_attr = 'SentimentText'
+        self.rate_attr = 'Sentiment'
+        self.pos_rates = ['1']
 
-    train = None
-    test = None
+        self.data = None
+        self.train = None
+        self.test = None    
 
     def load_data(self):
         # load the dataset
-        file_path = os.path.normpath(os.path.join(os.path.dirname(__file__), 'twitter_100k/train.csv'))
-        delim = ','
-        text_attr = 'SentimentText'
-        rate_attr = 'Sentiment'
+        loader = CsvSentimentDataLoader(self.file_path, self.delim, self.text_attr, self.rate_attr, self.pos_rates)
+        splitter = SimpleDataSplitter(self.text_attr, self.rate_attr, test_part_size=.3)
 
-        loader = CsvSentimentDataLoader(file_path, delim, text_attr, rate_attr, ['1'])
-        splitter = SimpleDataSplitter(text_attr, rate_attr, test_part_size=.3)
-
-        self.train, self.test = splitter.split_data(loader.load_data())
+        self.data = loader.load_data()
+        self.train, self.test = splitter.split_data(self.data)

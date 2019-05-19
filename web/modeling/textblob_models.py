@@ -3,28 +3,25 @@ from __future__ import absolute_import
 
 import logging
 from textblob.classifiers import NaiveBayesClassifier # classifier used to create model
-from web.data.en.datasets import AmazonAlexaDataset
+from web.data.en.datasets import SentimentLabelledDataset
 
 
 class TextBlobWrapper():
 
-    log = None
-    is_model_trained = False
-    classifier = None
-
+    def __init__(self):
+        self.log = logging.getLogger()
+        self.is_model_trained = False
+        self.classifier = None
 
     def init_app(self):
-        self.log = logging.getLogger()
-
         self.log.info('>>>>> TextBlob initialization started')
         self.ensure_model_is_trained()
         self.log.info('>>>>> TextBlob initialization completed')
 
-
     def ensure_model_is_trained(self):
         if not self.is_model_trained:
 
-            ds = AmazonAlexaDataset()
+            ds = SentimentLabelledDataset()
             ds.load_data()
 
             # train the classifier
