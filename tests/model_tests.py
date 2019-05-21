@@ -4,7 +4,6 @@ import unittest
 import loggingtestcase
 
 import numpy as np # linear algebra
-import pandas as pd # data processing
 from web.modeling.textblob_models import TextBlobWrapper
 from web.data.en.datasets import AmazonAlexaDataset
 
@@ -23,12 +22,12 @@ class TextBlobWrapperTests(unittest.TestCase):
 
     @loggingtestcase.capturelogs(None, level='INFO')
     def test_classifier_on_separate_set(self, logs):
-        tb = TextBlobWrapper()
-        ds = AmazonAlexaDataset()
+        tb = TextBlobWrapper() # Going to be trained on Sentiment Labelled dataset 
+        ds = AmazonAlexaDataset() # Test dataset
         ds.load_data()
 
         # Check poisitives
-        correct_answers = 0
+        true_pos = 0
         data = ds.data.to_numpy()
 
         seach_mask = np.isin(data[:, 1], ['pos'])
@@ -38,16 +37,14 @@ class TextBlobWrapperTests(unittest.TestCase):
             # Model train will be performed on first classification call
             r = tb.do_sentiment_classication(e[0])
             if r == e[1]:
-                correct_answers += 1
+                true_pos += 1
 
-        self.assertLessEqual(correct_answers, 100)
-        print(str.format('\nPositive answers prediction - {} of 100', correct_answers))
-
-        total_correct_answers = correct_answers
+        self.assertLessEqual(true_pos, 100)
+        print(str.format('\n\nTrue Positive answers - {} of 100', true_pos))
 
         # Check negatives
-        correct_answers = 0
-        data = ds.data.to_numpy()
+        true_neg = 0
+        data = ds.data.to_numpy() # ds.data - DataFrame loaded from TSV/CVS
 
         seach_mask = np.isin(data[:, 1], ['neg'])
         data = data[seach_mask][:100]
@@ -56,13 +53,16 @@ class TextBlobWrapperTests(unittest.TestCase):
             # Model train will be performed on first classification call
             r = tb.do_sentiment_classication(e[0])
             if r == e[1]:
-                correct_answers += 1
+                true_neg += 1
 
-        self.assertLessEqual(correct_answers, 100)
-        print(str.format('\nNegative answers prediction - {} of 100', correct_answers))
+        self.assertLessEqual(true_neg, 100)
+        print(str.format('\nTrue Negative answers - {} of 100', true_neg))
         
-        total_correct_answers += correct_answers
-        print(str.format('\nTotal prediction score - {}', round( total_correct_answers/200, 4 ) ))
+        print(str.format('\nPrediction accuracy - {}', round( ( true_pos + true_neg ) /200, 4 ) ))
+
+        print('\nModel training logs:\n')
+        for r in logs.records:
+            print(r.message)    
 
 
 if __name__ == '__main__':
