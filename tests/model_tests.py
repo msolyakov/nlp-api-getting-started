@@ -5,7 +5,22 @@ import loggingtestcase
 
 import numpy as np # linear algebra
 from web.modeling.textblob_models import TextBlobWrapper
+from web.modeling.linear_models import LinearModelWrapper
 from web.data.en.datasets import AmazonAlexaDataset
+
+class LinearModelWrapperTests(unittest.TestCase):
+
+    @loggingtestcase.capturelogs(None, level='INFO')
+    def test_train_linear(self, logs):
+        lin_mod = LinearModelWrapper()
+        lin_mod.init_app()
+
+        print('\nModel training is done. Logs:')
+        for r in logs.records:
+            print(r.message)
+        
+        self.assertIsNotNone(lin_mod.classifier)
+
 
 class TextBlobWrapperTests(unittest.TestCase):
 
@@ -35,7 +50,7 @@ class TextBlobWrapperTests(unittest.TestCase):
 
         for e in data[:]:
             # Model train will be performed on first classification call
-            r = tb.do_sentiment_classication(e[0])
+            r = tb.do_sentiment_classification(e[0])
             if r == e[1]:
                 true_pos += 1
 
@@ -51,7 +66,7 @@ class TextBlobWrapperTests(unittest.TestCase):
 
         for e in data[:]:
             # Model train will be performed on first classification call
-            r = tb.do_sentiment_classication(e[0])
+            r = tb.do_sentiment_classification(e[0])
             if r == e[1]:
                 true_neg += 1
 

@@ -2,13 +2,14 @@ from __future__ import absolute_import
 # Business layer
 
 from web.bll.models import SentimentResult
-from web.modeling.nltk_models import nltk
-from web.modeling.textblob_models import tb
+from web.modeling.textblob_models import TextBlobWrapper
 
-def do_sentiment_nltk(text):
-    rate = nltk.do_sentiment(text) # Do sentiment analysis for specified text 
-    return SentimentResult(text, rate)
+model = TextBlobWrapper()
 
-def do_sentiment_tb(text):
-    rate = tb.do_sentiment_classication(text) # Do sentiment analysis with Naive Bayes Classifier 
+def init_app():
+    # Train model before start
+    model.init_app()
+
+def do_sentiment(text):
+    rate = model.do_sentiment_classification(text) # Do sentiment analysis for specified text 
     return SentimentResult(text, rate)

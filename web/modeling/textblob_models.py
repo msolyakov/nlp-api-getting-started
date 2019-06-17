@@ -38,12 +38,9 @@ class TextBlobWrapper():
         return self.classifier
 
 
-    def do_sentiment_classication(self, text):
+    def do_sentiment_classification(self, text):
 
         clf = self.ensure_model_is_trained()
         res = clf.classify(text)
 
         return res
-
-
-tb = TextBlobWrapper()

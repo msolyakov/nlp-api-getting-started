@@ -7,7 +7,8 @@ from flask import Flask, Blueprint
 from web.api import settings
 from web.api.endpoints.v1 import ns as v1_api_namespace
 from web.api.restplus import api
-from web.modeling.textblob_models import tb
+from web.bll.core import init_app as init_model
+
 
 app = Flask(__name__)
 
@@ -31,9 +32,8 @@ def initialize_app(flask_app):
     api.add_namespace(v1_api_namespace)
     flask_app.register_blueprint(blueprint)
 
-    # Train model before start
-    tb.init_app()
-
+    init_model()
+    
 
 def main():
     initialize_app(app)
