@@ -8,3 +8,9 @@ python -m virtualenv env
 
 # To install packages
 pip install -r requirements.txt
+
+# Basic ML and NLP packages
+pip install sklearn
+pip install pandas
+pip install nltk
+pip install textblob
